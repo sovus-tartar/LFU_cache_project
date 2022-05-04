@@ -1,4 +1,4 @@
-#include "list.h"
+#include "../headers/list.h"
 
 list_t* list_ctor(){
     struct list_t *strc = (list_t*)calloc(1, sizeof(list_t));
@@ -25,7 +25,7 @@ void list_dtor(list_t*strc){
     free(strc);
 }
 
-arr_t *arr_ctor(){
+arr_t *arr_ctor() {
     struct arr_t *arr = (arr_t *)calloc(size_of_list + 1, sizeof(arr_t));
     assert(arr);
 
