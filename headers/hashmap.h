@@ -2,9 +2,10 @@
 
 typedef struct hashmap_node_t
 {
-    void *data;
+    void *data; //!!!!!!!!
     struct hashmap_node_t *prev;
     struct hashmap_node_t *next;
+    struct freq_node_t *parent;
 } hashmap_node;
 
 typedef struct hashmap_arr_t 
