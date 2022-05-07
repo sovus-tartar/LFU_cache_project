@@ -6,9 +6,9 @@
 #include <math.h>
 
 
-int ACCESS(int key, hashmap* Myhashmap, lfu_cache* Mylfu_cashe)
+int ACCESS(int key, lfu_cache* Mylfu_cache)
 {
-    hashmap_node* tmp = hashmap_get_node(Myhashmap, hash_count(key), &key);
+    hashmap_node* tmp = hashmap_get_node(Mylfu_cache->Myhashmap, hash_count(key), &key);
     if (tmp == nullptr) {
         //INSERT();
         //TODO: use here "INSERT"
@@ -18,7 +18,7 @@ int ACCESS(int key, hashmap* Myhashmap, lfu_cache* Mylfu_cashe)
     freq_node* freq = tmp->parent;
     freq_node* next_freq = freq->next;
 
-    if (next_freq == Mylfu_cashe->freq_head ||
+    if (next_freq == Mylfu_cache->freq_head ||
     next_freq->value != freq->value + 1) {
         next_freq = GET_NEW_NODE(freq->value + 1, freq, next_freq);
     }
@@ -54,6 +54,8 @@ int ACCESS(int key, hashmap* Myhashmap, lfu_cache* Mylfu_cashe)
 
 hashmap_node* NEW_LFU_ITEM(int data, freq_node* Myparent)
 {
+    assert(Myparent != nullptr);
+
     hashmap_node* new_node = (hashmap_node*) calloc(1, sizeof(hashmap_node));
     *((int*)new_node->data) = data;
     new_node->parent = Myparent;

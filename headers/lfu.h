@@ -11,10 +11,12 @@ typedef struct freq_node_t
 
 typedef struct lfu_cache_t
 {
+    int size = 0;
     struct freq_node_t *freq_head = nullptr;
+    hashmap* Myhashmap = nullptr;
 } lfu_cache;
 
-int ACCESS(int key, hashmap Myhashmap, lfu_cache* Mylfu_cashe);
+int ACCESS(int key, lfu_cache* Mylfu_cashe);
 hashmap_node* NEW_LFU_ITEM(int data, freq_node* parent);
 void DELETE_NODE(freq_node* freq);
 freq_node*GET_NEW_NODE(int new_val, freq_node* freq, freq_node* next_freq);
