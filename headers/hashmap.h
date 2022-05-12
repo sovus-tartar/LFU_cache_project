@@ -2,7 +2,7 @@
 
 typedef struct hashmap_node_t
 {
-    void *data; //use here node from list
+    void *data; //THIS IS 
     struct hashmap_node_t *prev;
     struct hashmap_node_t *next;
 } hashmap_node;

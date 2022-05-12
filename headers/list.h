@@ -1,7 +1,9 @@
+#pragma once
+
 
 typedef struct elem_t {
 
-    struct elem_t *parent;
+    struct freq_node_t *parent;
     struct elem_t *next;
     struct elem_t *prev;
     int data;

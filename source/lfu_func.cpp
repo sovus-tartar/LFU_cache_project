@@ -1,18 +1,40 @@
 #include "../headers/hashmap.h"
 #include "../headers/lfu.h"
+#include "../headers/list.h"
+
 #include <stdlib.h>
 #include <assert.h>
 #include <stdio.h>
 #include <math.h>
 
 
+elem_t *hashmap_get_data(hashmap *H, int hash, int key)
+{
+    int n, i;
+    hashmap_node *temp;
+    assert(H);
+    temp = (H->node_arr + hash)->node_ptr;
+    n = (H->node_arr + hash)->collisions;
+
+    for (i = 0; i < n; i++)
+    {
+        if (((elem_t*)(temp->data))->data == key)
+        {
+            return (elem_t*)(temp->data);
+        }
+        temp = temp->next;
+    }
+
+    return NULL;
+}
+
 int ACCESS(int key, lfu_cache* Mylfu_cache)
 {
-    hashmap_node* tmp = hashmap_get_node(Mylfu_cache->Myhashmap, hash_count(key), &key);
+    elem_t* tmp = hashmap_get_data(Mylfu_cache->Myhashmap, hash_count(key), key);;
     if (tmp == nullptr) {
         //INSERT();
         //TODO: use here "INSERT"
-        //printf("No such key\n");
+        printf("No such key\n");
         return -1;
     }
     freq_node* freq = tmp->parent;
@@ -23,7 +45,7 @@ int ACCESS(int key, lfu_cache* Mylfu_cache)
         next_freq = GET_NEW_NODE(freq->value + 1, freq, next_freq);
     }
 
-//remove from freq our tmp ---------------
+//remove our tmp from freq ---------------
     if (freq->head == tmp) {
         freq->head = tmp->next;    
     }
@@ -49,15 +71,15 @@ int ACCESS(int key, lfu_cache* Mylfu_cache)
     if (freq->length == 0)
         DELETE_NODE(freq);
     
-    return *((int*)tmp->data);
+    return tmp->data;
 }
 
-hashmap_node* NEW_LFU_ITEM(int data, freq_node* Myparent)
+elem_t* NEW_LFU_ITEM(int data, freq_node* Myparent)
 {
     assert(Myparent != nullptr);
 
-    hashmap_node* new_node = (hashmap_node*) calloc(1, sizeof(hashmap_node));
-    *((int*)new_node->data) = data;
+    elem_t* new_node = (elem_t*) calloc(1, sizeof(elem_t));
+    new_node->data = data;
     new_node->parent = Myparent;
 
     if (Myparent->head == nullptr) {

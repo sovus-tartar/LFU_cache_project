@@ -1,5 +1,6 @@
+#include "../headers/hashmap.h"
+#include "../headers/lfu.h"
 #include "../headers/list.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 
