@@ -8,7 +8,7 @@ List *ListCtor ()
 {
     List* lst = (list*) calloc (1, sizeof(list));
     
-    lst->fictive = (elem*) calloc (1, sizeof(elem));
+    lst->fictive = (node_t*) calloc (1, sizeof(node_t));
     lst->fictive->prev = lst->fictive;
     lst->fictive->next = lst->fictive;
 
@@ -25,10 +25,10 @@ int ListDtor (List* lst)
         return -1;
     }
     
-    elem *tmp_elem = lst->fictive->next;
+    struct node_t *tmp_elem = lst->fictive->next;
 
     while (tmp_elem != lst->fictive) {
-        elem *next_tmp_elem  = tmp_elem->next; 
+        struct node_t *next_tmp_elem  = tmp_elem->next; 
         free(tmp_elem);
         tmp_elem = next_tmp_elem;
     }
@@ -50,7 +50,7 @@ int ListDelete (List* lst, const int number)
         return -1;
     }
 
-    elem *searching = search_elem(lst, number);
+    struct node_t *searching = search_elem(lst, number);
 
     searching->prev->next = searching->next;
     searching->next->prev = searching->prev;
@@ -63,7 +63,7 @@ int ListDelete (List* lst, const int number)
     return 0;
 }
 
-elem *search_elem (List *lst, const int number) 
+struct node_t *search_elem (List *lst, const int number) 
 {
     
     if (lst->size < number) {
@@ -71,7 +71,7 @@ elem *search_elem (List *lst, const int number)
         return NULL;
     }
 
-    elem *tmp = lst->fictive;
+    struct node_t *tmp = lst->fictive;
 
     for (int i = 0; i < number; i++) 
         tmp = tmp->next;
@@ -81,9 +81,9 @@ elem *search_elem (List *lst, const int number)
 
 int ListInsertAft (List *lst, const int number, const int value) 
 {
-    elem *cur_ptr = search_elem (lst, number);
+    struct node_t *cur_ptr = search_elem (lst, number);
 
-    elem *new_elem = (elem*) calloc (1, sizeof(elem));
+    struct node_t *new_elem = (node_t*) calloc (1, sizeof(node_t));
 
     new_elem->data = value;
     new_elem->next = cur_ptr->next;
@@ -100,8 +100,8 @@ int ListInsertAft (List *lst, const int number, const int value)
 
 int ListInsertBef (List *lst, const int number, const int value) 
 {
-    elem *cur_ptr = search_elem (lst, number);
-    elem *new_elem = (elem*) calloc (1, sizeof(elem));
+    struct node_t *cur_ptr = search_elem (lst, number);
+    struct node_t *new_elem = (node_t*) calloc (1, sizeof(node_t));
 
     new_elem->data = value;
     new_elem->prev = cur_ptr->next;
@@ -119,7 +119,7 @@ int ListInsertBef (List *lst, const int number, const int value)
 
 int ListHeadAdd (List *lst, const int value) {
 
-    elem *new_elem = (elem*) calloc (1, sizeof(elem));
+    struct node_t *new_elem = (node_t*) calloc (1, sizeof(node_t));
 
     new_elem->data = value;
     new_elem->next = lst->fictive->next;
@@ -136,7 +136,7 @@ int ListHeadAdd (List *lst, const int value) {
 
 int ListTailAdd (List *lst, const int value) {
 
-    elem *new_elem = (elem*) calloc (1, sizeof(elem));
+    struct node_t *new_elem = (node_t*) calloc (1, sizeof(node_t));
 
     new_elem->data = value;
     new_elem->next = lst->fictive;
@@ -156,7 +156,7 @@ int graph_print (List *lst) {
 
     FILE *graph = fopen("graph++.txt", "w");
 
-    elem *cur_pos = lst->fictive->next;
+    struct node_t *cur_pos = lst->fictive->next;
     int counter = 0;
     int print_counter = 0;
 
