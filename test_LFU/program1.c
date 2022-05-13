@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 
 // this function reads the parameters of the tests and
 // calls the corresponding functions
@@ -16,6 +17,10 @@ int sawtooth(FILE *fp, int size, int k, int l);
 
 // cycles of number
 int cyclic(FILE *fp, int size, int k, int l);
+
+// frequency exp
+int fr_exp(FILE *fp, int size, int k, int l);
+
 
 int main()
 {
@@ -69,12 +74,12 @@ int test_generation(FILE *fp)
 
         printf("Enter the type of tests\n1 - all random\n");
         printf("2 - wandering around a changing average\n3 - sawtooth changes\n");
-        printf("4 - cyclic data\n");
-        while (scanf("%d", &v) != 1 || v <= 0 || v > 4)
+        printf("4 - cyclic data\n5 - frequency exp\n");
+        while (scanf("%d", &v) != 1 || v <= 0 || v > 5)
         {
             printf("Error\nEnter the type of tests\n1 - all random\n");
             printf("2 - wandering around a changing average\n 3 - sawtooth changes\n");
-            printf("4 - cyclic data\n");
+            printf("4 - cyclic data\n5 - frequency exp\n");
         }
 
         switch (v)
@@ -90,6 +95,9 @@ int test_generation(FILE *fp)
             break;
         case 4:
             cyclic(fp, size, k, l);
+            break;
+        case 5:
+            fr_exp(fp, size, k, l);
             break;
         default:
             abort();
@@ -248,6 +256,39 @@ int cyclic(FILE *fp, int size, int k, int l)
                 count2++;
             }
             free(arr);
+        }
+
+        fprintf(fp, "\n\n");
+    }
+
+    return ran;
+}
+
+int fr_exp(FILE *fp, int size, int k, int l)
+{
+    int ran, coef;
+    printf("Enter range of numbers\n");
+    while (scanf("%d", &ran) != 1 || ran <= 0)
+    {
+        printf("Error\n Please, Enter range of numbers\n");
+    }
+    printf("Enter coefficient\n");
+    while (scanf("%d", &coef) != 1 || coef <= 0)
+    {
+        printf("Error\n Please,Enter coefficient\n");
+    }
+    for (int i = 0; i < k; i++)
+    {
+        fprintf(fp, "%d ", size);
+        fprintf(fp, "%d ", l);
+        int count = 0;
+        while (count < l)
+        {
+            int x = 0;
+            x = rand() % ran;
+            x = round(log(x+1) * coef);
+            fprintf(fp, "%d ", x);
+            count++;
         }
 
         fprintf(fp, "\n\n");
