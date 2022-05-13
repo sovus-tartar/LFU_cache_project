@@ -1,12 +1,4 @@
-#include "../headers/hashmap.h"
-#include "../headers/lfu.h"
-#include "../headers/list.h"
-
-#include <stdlib.h>
-#include <assert.h>
-#include <stdio.h>
-#include <math.h>
-
+#include "lfu.h"
 
 int delete_node(struct freq_node_t* freq)
 {
@@ -17,6 +9,8 @@ int delete_node(struct freq_node_t* freq)
     } 
     freq->prev->next = freq->next;
     freq->next->prev = freq->prev;
+
+    free(freq);
     return 0;
 }
 
@@ -113,7 +107,23 @@ int insert(int key, lfu_cache_t *cache) {
 
     if (hashmap_get_data(cache->hash_map, hash_count(key), key)) {
         //printf("Key is already exist");
-        return 0;
+        return 1;
+    }
+
+    cache->size++;
+    if (cache->size > cache->capacity) {
+        struct node_t *leastElem = get_lfu_item(cache);
+        
+        leastElem->prev->next = leastElem->next;
+        leastElem->next->prev = leastElem->prev;
+
+        hashmap_delete_node(cache->hash_map, hash_count(leastElem->data), leastElem);
+
+        free(leastElem);
+
+        cache->freq_head->next->length--;
+        if (cache->freq_head->next->length == 0)
+            delete_node(cache->freq_head->next);
     }
 
     struct freq_node_t *freq = cache->freq_head->next;
@@ -121,7 +131,8 @@ int insert(int key, lfu_cache_t *cache) {
         freq = get_new_node(1, cache->freq_head, freq);
 
     struct node_t* lstNode = ListTailAdd(freq->node_list, key);
-    lstNode->parent = freq; 
+    lstNode->parent = freq;
+    freq->length++;
 
     hashmap_node *tblNode = hashmap_create_node(lstNode);
     hashmap_add_node(cache->hash_map, tblNode, hash_count(key));
@@ -135,6 +146,7 @@ struct freq_node_t * new_freq_node() {
     node->value = 0;
     node->length = 0;
     node->node_list = ListCtor();
+    node->node_list->fictive->parent = node;
     node->prev = NULL;
     node->next = NULL;
 
@@ -143,20 +155,43 @@ struct freq_node_t * new_freq_node() {
 
 struct lfu_cache_t * new_lfu_cache(int size) {
     struct lfu_cache_t *cache = (struct lfu_cache_t*)calloc(1, sizeof(struct lfu_cache_t));
-    cache->size = size;
+    cache->size = 0;
+    cache->capacity = size;
     cache->freq_head = new_freq_node();
+    cache->freq_head->next = cache->freq_head;
+    cache->freq_head->prev = cache->freq_head;
     cache->hash_map = hashmap_create();
 
     return cache;
 }
 
 struct freq_node_t * get_new_node(int val, struct freq_node_t *freq_prev, struct freq_node_t *freq_next) {
-    struct freq_node_t *node = (struct freq_node_t*)calloc(1, sizeof(struct freq_node_t));
+    assert(freq_prev);
+    assert(freq_next);
+
+    struct freq_node_t *node = new_freq_node();
     node->value = val;
     node->prev = freq_prev;
     node->next = freq_next;
+    
+
+
     freq_prev->next = node;
     freq_next->prev = node;
 
     return node;
+}
+
+void cacheDtor(lfu_cache_t *cache) {
+    assert(cache);
+
+    while(cache->freq_head->next->value != 0)
+        delete_node(cache->freq_head->next);
+
+    delete_node(cache->freq_head);
+
+    hashmap_delete(cache->hash_map);
+
+    free(cache);
+    return;
 }

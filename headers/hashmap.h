@@ -1,5 +1,10 @@
 #pragma once
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <assert.h>
+#include <math.h>
+
 typedef struct hashmap_node_t
 {
     void *data; //THIS IS 

@@ -1,7 +1,4 @@
-#include "../headers/hashmap.h"
-#include <stdlib.h>
-#include <assert.h>
-#include <stdio.h>
+#include "hashmap.h"
 
 //TODO: запихнуть сюда двусвязный список из либы BO$$a
 //TODO: hashmap_dumpдля либы BO$$a

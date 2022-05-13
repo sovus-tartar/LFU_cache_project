@@ -1,5 +1,11 @@
 #pragma once
 #include "list.h"
+#include "hashmap.h"
+
+#include <stdlib.h>
+#include <assert.h>
+#include <stdio.h>
+#include <math.h>
 
 struct freq_node_t
 {
@@ -13,6 +19,7 @@ struct freq_node_t
 struct lfu_cache_t
 {
     int size = 0;
+    int capacity = 0;
     struct freq_node_t *freq_head = nullptr;
     hashmap* hash_map = nullptr;
 };
@@ -30,3 +37,5 @@ int insert(int key, lfu_cache_t *cache);
 int delete_node(struct freq_node_t* freq);
 struct freq_node_t * new_freq_node();
 struct lfu_cache_t * new_lfu_cache(int size);
+
+void cacheDtor(lfu_cache_t *cache);
