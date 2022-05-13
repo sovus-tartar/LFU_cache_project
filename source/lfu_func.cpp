@@ -115,3 +115,15 @@ int insert(int key, lfu_cache_t *cache) {
 
     return 0;
 }
+
+
+struct freq_node_t * new_freq_node() {
+    struct freq_node_t *node = (freq_node_t*)calloc(1, sizeof(freq_node_t));
+    node->value = 0;
+    node->length = 0;
+    node->node_list = ListCtor();
+    node->prev = NULL;
+    node->next = NULL;
+
+    return node;
+}
