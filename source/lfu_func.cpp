@@ -7,9 +7,9 @@
 #include <stdio.h>
 #include <math.h>
 
-struct lfu_cache* new_lfu_cache(int size)
+struct lfu_cache_t* new_lfu_cache(int size)
 {   
-    struct lfu_cache* LfuCache = (lfu_cache*) calloc(1, sizeof(lfu_cache));
+    struct lfu_cache_t* LfuCache = (lfu_cache_t*) calloc(1, sizeof(lfu_cache_t));
     LfuCache->size = size;
     LfuCache->hash_map = hashmap_create();
     LfuCache->freq_head = (freq_node_t*) calloc(1, sizeof(freq_node_t));
@@ -18,14 +18,14 @@ struct lfu_cache* new_lfu_cache(int size)
     return LfuCache;
 }
 
-struct node_t* get_lfu_item(struct lfu_cache* LfuCache)
+struct node_t* get_lfu_item(struct lfu_cache_t* LfuCache)
 {   
     if (LfuCache->hash_map->number_of_elements <= 0) {
         printf("error in get_lfu_item\n");
         return NULL;
     }
 
-    struct node_t* tmp_node = hashmap_get_data(LfuCache->hash_map, hash_count(LfuCache->freq_head->next->head->data), LfuCache->freq_head->next->head->data);
+    struct node_t* tmp_node = hashmap_get_data(LfuCache->hash_map, hash_count(LfuCache->freq_head->next->node_list->fictive->next->data), LfuCache->freq_head->next->node_list->fictive->next->data);
         
     return tmp_node;
 }
