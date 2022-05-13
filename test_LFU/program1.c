@@ -58,18 +58,21 @@ int test_generation(FILE *fp)
         while (scanf("%d", &size) != 1 || size <= 0)
         {
             printf("Error\n Please,Enter the size of cash\n");
+            while (getchar() != '\n');
         }
 
         printf("Enter the number of tests\n");
         while (scanf("%d", &k) != 1 || k <= 0)
         {
             printf("Error\n Please,Enter the number of tests\n");
+            while (getchar() != '\n');
         }
 
         printf("Enter the length of tests\n");
         while (scanf("%d", &l) != 1 || l <= 0)
         {
             printf("Error\n Please,Enter the length of tests\n");
+            while (getchar() != '\n');
         }
 
         printf("Enter the type of tests\n1 - all random\n");
@@ -80,6 +83,7 @@ int test_generation(FILE *fp)
             printf("Error\nEnter the type of tests\n1 - all random\n");
             printf("2 - wandering around a changing average\n 3 - sawtooth changes\n");
             printf("4 - cyclic data\n5 - frequency exp\n");
+            while (getchar() != '\n');
         }
 
         switch (v)
@@ -115,6 +119,7 @@ int all_random(FILE *fp, int size, int k, int l)
     while (scanf("%d", &ran) != 1 || ran <= 0)
     {
         printf("Error\n Please, Enter range of numbers\n");
+        while (getchar() != '\n');
     }
 
     for (int i = 0; i < k; i++)
@@ -139,18 +144,21 @@ int wandering(FILE *fp, int size, int k, int l)
     while (scanf("%d", &ran) != 1 || ran <= 0)
     {
         printf("Error\n Please, Enter range of numbers\n");
+        while (getchar() != '\n');
     }
 
     printf("Enter range of deviation\n");
     while (scanf("%d", &ran_d) != 1 || ran_d <= 0)
     {
         printf("Error\n Please, Enter range of deviation\n");
+        while (getchar() != '\n');
     }
 
     printf("Enter range of the number of w_n\n");
     while (scanf("%d", &ran_w) != 1 || ran_w <= 0)
     {
         printf("Error\n Please, Enter range the number of w_n\n");
+        while (getchar() != '\n');
     }
     for (int i = 0; i < k; i++)
     {
@@ -185,6 +193,7 @@ int sawtooth(FILE *fp, int size, int k, int l)
     while (scanf("%d", &ran) != 1 || ran <= 0)
     {
         printf("Error\n Please, Enter range of numbers\n");
+        while (getchar() != '\n');
     }
 
     for (int i = 0; i < k; i++)
@@ -228,11 +237,13 @@ int cyclic(FILE *fp, int size, int k, int l)
     while (scanf("%d", &ran) != 1 || ran <= 0)
     {
         printf("Error\n Please, Enter range of numbers\n");
+        while (getchar() != '\n');
     }
     printf("Enter range of cycle\n");
     while (scanf("%d", &ran_c) != 1 || ran_c <= 0)
     {
         printf("Error\n Please, Enter range of cycle\n");
+        while (getchar() != '\n');
     }
     for (int i = 0; i < k; i++)
     {
@@ -271,11 +282,13 @@ int fr_exp(FILE *fp, int size, int k, int l)
     while (scanf("%d", &ran) != 1 || ran <= 0)
     {
         printf("Error\n Please, Enter range of numbers\n");
+        while (getchar() != '\n');
     }
     printf("Enter coefficient\n");
     while (scanf("%d", &coef) != 1 || coef <= 0)
     {
         printf("Error\n Please,Enter coefficient\n");
+        while (getchar() != '\n');
     }
     for (int i = 0; i < k; i++)
     {
