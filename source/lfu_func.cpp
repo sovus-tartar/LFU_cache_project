@@ -127,3 +127,12 @@ struct freq_node_t * new_freq_node() {
 
     return node;
 }
+
+struct lfu_cache_t * new_lfu_cache(int size) {
+    struct lfu_cache_t *cache = (struct lfu_cache_t*)calloc(1, sizeof(struct lfu_cache_t));
+    cache->size = size;
+    cache->freq_head = new_freq_node();
+    cache->hash_map = hashmap_create();
+
+    return cache;
+}

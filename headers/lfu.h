@@ -25,6 +25,9 @@ struct freq_node_t *get_new_node(int new_val, struct freq_node_t* freq, struct f
 struct node_t *hashmap_get_data(hashmap *H, int hash, int key);
 
 int insert(int key, lfu_cache_t *cache);
+
+
 struct freq_node_t * new_freq_node();
+struct lfu_cache_t * new_lfu_cache(int size);
 
 
