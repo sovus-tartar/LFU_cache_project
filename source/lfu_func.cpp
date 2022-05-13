@@ -8,6 +8,18 @@
 #include <math.h>
 
 
+int delete_node(struct freq_node_t* freq)
+{
+    ListDtor(freq->node_list);
+    if (freq->prev == NULL || freq->next == NULL) {
+        printf("error in delete_node\n");
+        return -1;
+    } 
+    freq->prev->next = freq->next;
+    freq->next->prev = freq->prev;
+    return 0;
+}
+
 struct node_t* get_lfu_item(struct lfu_cache_t* LfuCache)
 {   
     if (LfuCache->hash_map->number_of_elements <= 0) {
