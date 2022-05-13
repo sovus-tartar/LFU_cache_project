@@ -87,10 +87,12 @@ int test_generation(FILE *fp)
             break;
         case 3:
             sawtooth(fp, size, k, l);
+            break;
         case 4:
             cyclic(fp, size, k, l);
-        default:;
-            // abort();
+            break;
+        default:
+            abort();
         }
         N += k;
     }
