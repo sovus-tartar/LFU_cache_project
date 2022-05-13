@@ -20,7 +20,7 @@ struct lfu_cache_t
 
 int access(int key, struct lfu_cache_t* cashe);
 struct node_t* new_lfu_item(int data, struct freq_node_t* parent);
-struct freq_node_t *get_new_node(int new_val, struct freq_node_t* freq, struct freq_node_t* next_freq);
+struct freq_node_t * get_new_node(int val, struct freq_node_t *freq_prev, struct freq_node_t *freq_next);
 struct node_t *hashmap_get_data(hashmap *H, int hash, int key);
 
 struct node_t* get_lfu_item(struct lfu_cache_t* LfuCache);

@@ -149,3 +149,14 @@ struct lfu_cache_t * new_lfu_cache(int size) {
 
     return cache;
 }
+
+struct freq_node_t * get_new_node(int val, struct freq_node_t *freq_prev, struct freq_node_t *freq_next) {
+    struct freq_node_t *node = (struct freq_node_t*)calloc(1, sizeof(struct freq_node_t));
+    node->value = val;
+    node->prev = freq_prev;
+    node->next = freq_next;
+    freq_prev->next = node;
+    freq_next->prev = node;
+
+    return node;
+}
