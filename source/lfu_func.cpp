@@ -7,6 +7,28 @@
 #include <stdio.h>
 #include <math.h>
 
+struct lfu_cache* new_lfu_cache(int size)
+{   
+    struct lfu_cache* LfuCache = (lfu_cache*) calloc(1, sizeof(lfu_cache));
+    LfuCache->size = size;
+    LfuCache->hash_map = hashmap_create();
+    LfuCache->freq_head = (freq_node_t*) calloc(1, sizeof(freq_node_t));
+    LfuCache->freq_head->value = -1;
+
+    return LfuCache;
+}
+
+struct node_t* get_lfu_item(struct lfu_cache* LfuCache)
+{   
+    if (LfuCache->hash_map->number_of_elements <= 0) {
+        printf("error in get_lfu_item\n");
+        return NULL;
+    }
+
+    struct node_t* tmp_node = hashmap_get_data(LfuCache->hash_map, hash_count(LfuCache->freq_head->next->head->data), LfuCache->freq_head->next->head->data);
+        
+    return tmp_node;
+}
 
 struct node_t *hashmap_get_data(hashmap *H, int hash, int key)
 {
@@ -46,26 +68,18 @@ int access(int key, struct lfu_cache* cache)
     }
 
 //remove our tmp from freq ---------------
-    if (freq->head == tmp) {
-        freq->head = tmp->next;    
-    }
     tmp->next->prev = tmp->prev;
     tmp->prev->next = tmp->next;
+    freq->length--;
 //---------------------------------------
-
 
 //place tmp into freq+1 ------------------
     tmp->parent = next_freq;
-    if (next_freq->head == nullptr) {
-        next_freq->head = tmp;
-        next_freq->head->prev = tmp; 
-        next_freq->head->next = tmp;
-    }
-    else {
-        next_freq->head->prev->next = tmp;
-        next_freq->head->prev = tmp; 
-        next_freq->head = tmp;
-    }
+    tmp->next = next_freq->node_list->fictive->next;
+    tmp->prev = next_freq->node_list->fictive;
+    next_freq->node_list->fictive->next->prev = tmp;
+    next_freq->node_list->fictive->next = tmp;
+    next_freq->length++;
 //---------------------------------------
 
     if (freq->length == 0)
@@ -81,17 +95,13 @@ struct node_t* new_lfu_item(int data, struct freq_node_t* parent)
     struct node_t* new_node = (node_t*) calloc(1, sizeof(node_t));
     new_node->data = data;
     new_node->parent = parent;
+    
+    new_node->next = parent->node_list->fictive->next;
+    new_node->prev = parent->node_list->fictive;
+    parent->node_list->fictive->next->prev = new_node;
+    parent->node_list->fictive->next = new_node;
+    parent->length++;
 
-    if (parent->head == nullptr) {
-        parent->head = new_node;
-        parent->head->prev = new_node; 
-        parent->head->next = new_node;
-    }
-    else {
-        parent->head->prev->next = new_node;
-        parent->head->prev = new_node; 
-        parent->head = new_node;
-    }
     return new_node;
 }
 
