@@ -117,7 +117,7 @@ int ListInsertBef (List *lst, const int number, const int value)
 }
 
 
-int ListHeadAdd (List *lst, const int value) {
+struct node_t* ListHeadAdd (List *lst, const int value) {
 
     struct node_t *new_elem = (node_t*) calloc (1, sizeof(node_t));
 
@@ -131,12 +131,13 @@ int ListHeadAdd (List *lst, const int value) {
     
     lst->size++;
 
-    return 0;
+    return new_elem;
 }
 
-int ListTailAdd (List *lst, const int value) {
+struct node_t* ListTailAdd (List *lst, const int value) {
 
     struct node_t *new_elem = (node_t*) calloc (1, sizeof(node_t));
+
 
     new_elem->data = value;
     new_elem->next = lst->fictive;
@@ -148,7 +149,7 @@ int ListTailAdd (List *lst, const int value) {
     
     lst->size++;
 
-    return 0;
+    return new_elem;
 }
 
 

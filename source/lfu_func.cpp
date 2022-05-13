@@ -7,7 +7,6 @@
 #include <stdio.h>
 #include <math.h>
 
-
 struct node_t *hashmap_get_data(hashmap *H, int hash, int key)
 {
     int n, i;
@@ -28,7 +27,7 @@ struct node_t *hashmap_get_data(hashmap *H, int hash, int key)
     return NULL;
 }
 
-int access(int key, struct lfu_cache* cache)
+int access(int key, struct lfu_cache_t* cache)
 {
     struct node_t* tmp = hashmap_get_data(cache->hash_map, hash_count(key), key);
     if (tmp == nullptr) {
@@ -96,3 +95,23 @@ struct node_t* new_lfu_item(int data, struct freq_node_t* parent)
 }
 
 
+int insert(int key, lfu_cache_t *cache) {
+    assert(cache);
+
+    if (hashmap_get_data(cache->hash_map, hash_count(key), key)) {
+        //printf("Key is already exist");
+        return 0;
+    }
+
+    struct freq_node_t *freq = cache->freq_head->next;
+    if (freq->value != 1) 
+        freq = get_new_node(1, cache->freq_head, freq);
+
+    struct node_t* lstNode = ListTailAdd(freq->node_list, key);
+    lstNode->parent = freq; 
+
+    hashmap_node *tblNode = hashmap_create_node(lstNode);
+    hashmap_add_node(cache->hash_map, tblNode, hash_count(key));
+
+    return 0;
+}
