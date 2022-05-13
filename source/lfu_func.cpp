@@ -7,16 +7,6 @@
 #include <stdio.h>
 #include <math.h>
 
-struct lfu_cache_t* new_lfu_cache(int size)
-{   
-    struct lfu_cache_t* LfuCache = (lfu_cache_t*) calloc(1, sizeof(lfu_cache_t));
-    LfuCache->size = size;
-    LfuCache->hash_map = hashmap_create();
-    LfuCache->freq_head = (freq_node_t*) calloc(1, sizeof(freq_node_t));
-    LfuCache->freq_head->value = -1;
-
-    return LfuCache;
-}
 
 struct node_t* get_lfu_item(struct lfu_cache_t* LfuCache)
 {   
