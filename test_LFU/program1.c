@@ -30,7 +30,7 @@ int main()
 
     FILE *fp;
 
-    fp = fopen(name_of_tf, "a");
+    fp = fopen(name_of_tf, "w+");
 
     int N; // total number of tests
     N = test_generation(fp);
@@ -108,7 +108,8 @@ int test_generation(FILE *fp)
         }
         N += k;
     }
-
+    rewind(fp);
+    fprintf(fp, "%d\n\n", N); 
     return N;
 }
 
