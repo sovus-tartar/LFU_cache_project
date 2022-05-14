@@ -557,7 +557,7 @@ void cache_show(cache *C)
 
 int main()
 {
-    int m, tries, i, success;
+    int m, tries, i, success, num_of_test;
     cache *C;
     printf("Enter name of test file\n");
     char namefr[100], namefw[100];
@@ -566,7 +566,7 @@ int main()
     printf("Enter name of res file\n");
     scanf("%s", namefw);
     FILE *fw = fopen(namefw, "w");
-
+    fscanf(fr, "%d", &num_of_test);
     while (fscanf(fr, "%d", &m) == 1)
     {
         C = init_cache(m);
