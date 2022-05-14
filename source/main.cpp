@@ -1,6 +1,8 @@
 #include "../headers/lfu.h"
 
 int main() {
+    printf("Enter size of cache, number of elements and all elements:\n");
+
     int cacheSize = 0, n = 0;
     int chk = scanf("%d %d", &cacheSize, &n);
     assert(chk == 2);
