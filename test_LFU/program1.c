@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#include <time.h>
 
 // this function reads the parameters of the tests and
 // calls the corresponding functions
@@ -24,13 +25,14 @@ int fr_exp(FILE *fp, int size, int k, int l);
 
 int main()
 {
+    srand(time(NULL);
     printf("Enter name of test file\n");
     char name_of_tf[100];
     scanf("%s", name_of_tf);
 
     FILE *fp;
 
-    fp = fopen(name_of_tf, "w+");
+    fp = fopen(name_of_tf, "a");
 
     int N; // total number of tests
     N = test_generation(fp);
@@ -108,8 +110,7 @@ int test_generation(FILE *fp)
         }
         N += k;
     }
-    rewind(fp);
-    fprintf(fp, "%d\n\n", N); 
+
     return N;
 }
 
