@@ -95,7 +95,7 @@ increment(cache, indices, indices[value], cache_size);
 // Driver Code
 int main()
 {
-    int tries, m, n, succesб num_of_test;
+    int tries, m, n, succes;
     printf("Enter name of test file\n");
     char namefr[100], namefw[100];
     scanf("%s", namefr);
@@ -103,7 +103,6 @@ int main()
     printf("Enter name of res file\n");
     scanf("%s", namefw);
     FILE *fw = fopen(namefw, "w");
-    fscanf(fr, "%d", &num_of_test);
     while (fscanf(fr, "%d", &m) == 1)
     {
         int cache_max_size = m, cache_size = 0;
