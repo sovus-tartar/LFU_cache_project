@@ -25,7 +25,7 @@ int fr_exp(FILE *fp, int size, int k, int l);
 
 int main()
 {
-    srand(time(NULL);
+    srand(time(NULL));
     printf("Enter name of test file\n");
     char name_of_tf[100];
     scanf("%s", name_of_tf);
