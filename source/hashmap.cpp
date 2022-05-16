@@ -4,7 +4,7 @@
 //TODO: hashmap_dumpдля либы BO$$a
 //TODO: комментарии к функциям
 
-const int hash_pow = 15; // powerfullness of hash
+const int hash_pow = 10000; // powerfullness of hash
 
 int hash_count(int key)
 {
