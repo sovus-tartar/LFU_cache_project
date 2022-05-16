@@ -2,6 +2,8 @@
 
 int delete_node(struct freq_node_t* freq)
 {
+    assert(freq);
+
     ListDtor(freq->node_list);
     if (freq->prev == NULL || freq->next == NULL) {
         printf("error in delete_node\n");
@@ -16,6 +18,8 @@ int delete_node(struct freq_node_t* freq)
 
 struct node_t* get_lfu_item(struct lfu_cache_t* LfuCache)
 {   
+    assert(LfuCache);
+
     if (LfuCache->hash_map->number_of_elements <= 0) {
         printf("error in get_lfu_item\n");
         return NULL;
@@ -48,6 +52,8 @@ struct node_t *hashmap_get_data(hashmap *H, int hash, int key)
 
 int access(int key, struct lfu_cache_t* cache)
 {
+    assert(cache);
+
     struct node_t* tmp = hashmap_get_data(cache->hash_map, hash_count(key), key);
     if (tmp == nullptr) {
         //INSERT();
@@ -102,16 +108,19 @@ struct node_t* new_lfu_item(int data, struct freq_node_t* parent)
 }
 
 
-int insert(int key, lfu_cache_t *cache) {
+int insert(int key, lfu_cache_t *cache) 
+{
     assert(cache);
 
-    if (hashmap_get_data(cache->hash_map, hash_count(key), key)) {
+    if (hashmap_get_data(cache->hash_map, hash_count(key), key)) 
+    {
         //printf("Key is already exist");
         return 1;
     }
 
     cache->size++;
-    if (cache->size > cache->capacity) {
+    if (cache->size > cache->capacity) 
+    {
         struct node_t *leastElem = get_lfu_item(cache);
         
         leastElem->prev->next = leastElem->next;
@@ -141,8 +150,11 @@ int insert(int key, lfu_cache_t *cache) {
 }
 
 
-struct freq_node_t * new_freq_node() {
+struct freq_node_t * new_freq_node() 
+{
     struct freq_node_t *node = (freq_node_t*)calloc(1, sizeof(freq_node_t));
+    assert(node);
+    
     node->value = 0;
     node->length = 0;
     node->node_list = ListCtor();
@@ -153,8 +165,11 @@ struct freq_node_t * new_freq_node() {
     return node;
 }
 
-struct lfu_cache_t * new_lfu_cache(int size) {
+struct lfu_cache_t * new_lfu_cache(int size) 
+{
     struct lfu_cache_t *cache = (struct lfu_cache_t*)calloc(1, sizeof(struct lfu_cache_t));
+    assert(cache);
+
     cache->size = 0;
     cache->capacity = size;
     cache->freq_head = new_freq_node();
@@ -165,7 +180,8 @@ struct lfu_cache_t * new_lfu_cache(int size) {
     return cache;
 }
 
-struct freq_node_t * get_new_node(int val, struct freq_node_t *freq_prev, struct freq_node_t *freq_next) {
+struct freq_node_t * get_new_node(int val, struct freq_node_t *freq_prev, struct freq_node_t *freq_next) 
+{
     assert(freq_prev);
     assert(freq_next);
 
@@ -182,7 +198,8 @@ struct freq_node_t * get_new_node(int val, struct freq_node_t *freq_prev, struct
     return node;
 }
 
-void cacheDtor(lfu_cache_t *cache) {
+void cacheDtor(lfu_cache_t *cache) 
+{
     assert(cache);
 
     while(cache->freq_head->next->value != 0)

@@ -3,8 +3,11 @@
 List *ListCtor () 
 {
     List* lst = (list*) calloc (1, sizeof(list));
+    assert(lst);
     
     lst->fictive = (node_t*) calloc (1, sizeof(node_t));
+    assert(lst->fictive);
+
     lst->fictive->prev = lst->fictive;
     lst->fictive->next = lst->fictive;
 
@@ -15,6 +18,8 @@ List *ListCtor ()
 
 int ListDtor (List* lst) 
 {
+    assert(lst);
+
     if (lst == NULL)
     {
         printf("Err in dtor\n");
@@ -40,6 +45,7 @@ int ListDtor (List* lst)
 
 int ListDelete (List* lst, const int number) 
 {
+    assert(lst);
     
     if (lst->size == 0) {
         printf("ERROR in delite\n");
@@ -61,6 +67,7 @@ int ListDelete (List* lst, const int number)
 
 struct node_t *search_elem (List *lst, const int number) 
 {
+    assert(lst);
     
     if (lst->size < number) {
         printf("No searching elem\n");
@@ -77,9 +84,12 @@ struct node_t *search_elem (List *lst, const int number)
 
 int ListInsertAft (List *lst, const int number, const int value) 
 {
+    assert(lst);
+
     struct node_t *cur_ptr = search_elem (lst, number);
 
     struct node_t *new_elem = (node_t*) calloc (1, sizeof(node_t));
+    assert(new_elem);
 
     new_elem->data = value;
     new_elem->next = cur_ptr->next;
@@ -96,8 +106,11 @@ int ListInsertAft (List *lst, const int number, const int value)
 
 int ListInsertBef (List *lst, const int number, const int value) 
 {
+    assert(lst);
+
     struct node_t *cur_ptr = search_elem (lst, number);
     struct node_t *new_elem = (node_t*) calloc (1, sizeof(node_t));
+    assert(new_elem);
 
     new_elem->data = value;
     new_elem->prev = cur_ptr->next;
@@ -113,9 +126,12 @@ int ListInsertBef (List *lst, const int number, const int value)
 }
 
 
-struct node_t* ListHeadAdd (List *lst, const int value) {
+struct node_t* ListHeadAdd (List *lst, const int value) 
+{
+    assert(lst);
 
     struct node_t *new_elem = (node_t*) calloc (1, sizeof(node_t));
+    assert(new_elem);
 
     new_elem->data = value;
     new_elem->next = lst->fictive->next;
@@ -130,9 +146,12 @@ struct node_t* ListHeadAdd (List *lst, const int value) {
     return new_elem;
 }
 
-struct node_t* ListTailAdd (List *lst, const int value) {
+struct node_t* ListTailAdd (List *lst, const int value) 
+{
+    assert(lst);
 
     struct node_t *new_elem = (node_t*) calloc (1, sizeof(node_t));
+    assert(new_elem);
 
 
     new_elem->data = value;
@@ -149,9 +168,12 @@ struct node_t* ListTailAdd (List *lst, const int value) {
 }
 
 
-int graph_print (List *lst) {
+int graph_print (List *lst) 
+{
+    assert(lst);
 
     FILE *graph = fopen("graph++.txt", "w");
+    assert(graph);
 
     struct node_t *cur_pos = lst->fictive->next;
     int counter = 0;

@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/lfu.dir/source/main.cpp.o CMakeFiles/lfu.dir/source/hashmap.cpp.o CMakeFiles/lfu.dir/source/lfu_func.cpp.o CMakeFiles/lfu.dir/source/list.cpp.o  -o lfu 

@@ -1,9 +1,5 @@
 #include "hashmap.h"
 
-//TODO: запихнуть сюда двусвязный список из либы BO$$a
-//TODO: hashmap_dumpдля либы BO$$a
-//TODO: комментарии к функциям
-
 const int hash_pow = 10000; // powerfullness of hash
 
 int hash_count(int key)
@@ -45,6 +41,8 @@ hashmap *hashmap_create()
 
 void hashmap_delete(hashmap *H)
 {
+    assert(H);
+
     int i;
 
     hashmap_node * top, * curr;
@@ -69,11 +67,15 @@ void hashmap_delete(hashmap *H)
 
 hashmap_node *hashmap_create_node(void *data)
 {
+    assert(data);
+
     hashmap_node *temp;
 
     assert(data);
 
     temp = (hashmap_node *)calloc(1, sizeof(hashmap_node));
+    assert(temp);
+
     temp->data = data;
 #ifdef HASHMAP_DEBUG
     printf("Hashmap node(%p) created with data(%p)\n", temp, data);

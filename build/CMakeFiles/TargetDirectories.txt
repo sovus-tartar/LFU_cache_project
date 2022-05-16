@@ -1,0 +1,3 @@
+/mnt/c/code/LFU_cache_project/build/CMakeFiles/rebuild_cache.dir
+/mnt/c/code/LFU_cache_project/build/CMakeFiles/edit_cache.dir
+/mnt/c/code/LFU_cache_project/build/CMakeFiles/lfu.dir
