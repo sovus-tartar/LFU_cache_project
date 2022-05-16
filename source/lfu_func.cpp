@@ -1,5 +1,6 @@
 #include "lfu.h"
 
+
 int delete_node(struct freq_node_t* freq)
 {
     assert(freq);
